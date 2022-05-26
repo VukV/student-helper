@@ -4,6 +4,7 @@
     package="rs.raf.projekat2.vuk_vukovic_rn9420">
 
     <application
+        android:name=".application.StudentHelper"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
