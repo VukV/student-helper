@@ -13,11 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 //import kotlinx.android.synthetic.main.fragment_schedule.*
 import rs.raf.projekat2.vuk_vukovic_rn9420.R
 import rs.raf.projekat2.vuk_vukovic_rn9420.databinding.FragmentScheduleBinding
+import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.recycler.subject.SubjectAdapter
 
 class ScheduleFragment:Fragment() {
 
     private var _binding: FragmentScheduleBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var adapter: SubjectAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,10 +33,13 @@ class ScheduleFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initSpinners(view)
+
+        initSpinners()
+        initRecycler()
+        initObservers()
     }
 
-    private fun initSpinners(view: View){
+    private fun initSpinners(){
         activity?.let {
             ArrayAdapter.createFromResource(
                 it,
@@ -57,9 +63,13 @@ class ScheduleFragment:Fragment() {
         }
     }
 
-    private fun initRecycler(view: View){
-        //scheduleRecycler.layoutManager = LinearLayoutManager(activity)
-        //TODO adapter
+    private fun initRecycler(){
+        binding.scheduleRecycler.layoutManager = LinearLayoutManager(context)
+        adapter = SubjectAdapter()
+        binding.scheduleRecycler.adapter = adapter
+    }
 
+    private fun initObservers(){
+        //TODO
     }
 }
