@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputBinding
 import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -77,7 +77,31 @@ class ScheduleFragment:Fragment(R.layout.fragment_schedule) {
 
     private fun initListeners(){
         binding.searchButton.setOnClickListener {
+            val searchTag = binding.searchEditText.text.toString()
+            val group = binding.groupSpinner.selectedItem.toString()
+            val day = binding.daySpinner.selectedItem.toString()
 
+            if(searchTag != "" && group != "Grupa" && day != "Dan"){
+                subjectViewModel.getAllByAllFilters(searchTag, group, day)
+            }
+            else if(searchTag == "" && group != "Grupa" && day != "Dan"){
+                subjectViewModel.getAllByGroupAndDay(day, group)
+            }
+            else if(searchTag != "" && group == "Grupa" && day != "Dan"){
+                subjectViewModel.getAllByNameOrProfessorAndDay(searchTag, day)
+            }
+            else if(searchTag != "" && group != "Grupa" && day == "Dan"){
+                subjectViewModel.getAllByNameOrProfessorAndGroup(searchTag, group)
+            }
+            else if(searchTag == "" && group == "Grupa" && day != "Dan"){
+                subjectViewModel.getAllByDay(day)
+            }
+            else if(searchTag == "" && group != "Grupa" && day == "Dan"){
+                subjectViewModel.getAllByGroup(group)
+            }
+            else if(searchTag != "" && group == "Grupa" && day == "Dan"){
+                subjectViewModel.getAllByNameOrProfessor(searchTag)
+            }
         }
     }
 
@@ -92,18 +116,29 @@ class ScheduleFragment:Fragment(R.layout.fragment_schedule) {
     private fun renderState(state: SubjectsState){
         when(state){
             is SubjectsState.Success -> {
-
+                showLoadingState(false)
+                adapter.submitList(state.subjects)
             }
             is SubjectsState.Error -> {
-
+                showLoadingState(false)
+                Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
             }
             is SubjectsState.DataFetched -> {
-
+                showLoadingState(false)
+                Toast.makeText(context, "Podaci pokupljeni sa servera", Toast.LENGTH_LONG).show()
             }
             is SubjectsState.Loading -> {
-
+                showLoadingState(true)
             }
         }
+    }
+
+    private fun showLoadingState(loading: Boolean) {
+        binding.progressBar.isVisible = loading
+        binding.searchEditText.isEnabled = !loading
+        binding.searchButton.isEnabled = !loading
+        binding.daySpinner.isEnabled = !loading
+        binding.groupSpinner.isEnabled = !loading
     }
 
     override fun onDestroyView() {

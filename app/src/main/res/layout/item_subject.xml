@@ -21,7 +21,8 @@
             android:id="@+id/subjectTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             android:layout_marginBottom="5dp">
         </TextView>
 
@@ -56,6 +57,7 @@
         app:layout_constraintStart_toEndOf="@+id/subjectInfo"
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical"
+        android:gravity="center"
         android:paddingStart="20dp"
         android:paddingEnd="20dp">
 
@@ -63,7 +65,8 @@
             android:id="@+id/dayTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             android:layout_marginBottom="10dp">
         </TextView>
 
@@ -71,7 +74,8 @@
             android:id="@+id/timeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp">
+            android:textSize="15sp"
+            android:textStyle="bold">
         </TextView>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
