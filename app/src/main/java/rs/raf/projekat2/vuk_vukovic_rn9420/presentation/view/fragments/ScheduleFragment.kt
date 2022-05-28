@@ -8,14 +8,19 @@ import android.view.inputmethod.InputBinding
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-//import kotlinx.android.synthetic.main.fragment_schedule.*
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import rs.raf.projekat2.vuk_vukovic_rn9420.R
 import rs.raf.projekat2.vuk_vukovic_rn9420.databinding.FragmentScheduleBinding
+import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.contract.SubjectContract
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.recycler.subject.SubjectAdapter
+import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.SubjectsState
+import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.viewmodel.SubjectViewModel
 
 class ScheduleFragment:Fragment(R.layout.fragment_schedule) {
+
+    private val subjectViewModel: SubjectContract.ViewModel by sharedViewModel<SubjectViewModel>()
 
     private var _binding: FragmentScheduleBinding? = null
     private val binding get() = _binding!!
@@ -71,11 +76,34 @@ class ScheduleFragment:Fragment(R.layout.fragment_schedule) {
     }
 
     private fun initListeners(){
-        //todo
+        binding.searchButton.setOnClickListener {
+
+        }
     }
 
     private fun initObservers(){
-        //TODO
+        subjectViewModel.subjectsState.observe(viewLifecycleOwner, Observer {
+            renderState(it)
+        })
+        subjectViewModel.getAllSubjects()
+        subjectViewModel.fetchSchedule()
+    }
+
+    private fun renderState(state: SubjectsState){
+        when(state){
+            is SubjectsState.Success -> {
+
+            }
+            is SubjectsState.Error -> {
+
+            }
+            is SubjectsState.DataFetched -> {
+
+            }
+            is SubjectsState.Loading -> {
+
+            }
+        }
     }
 
     override fun onDestroyView() {

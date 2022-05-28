@@ -6,6 +6,6 @@ import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.subject.SubjectResponse
 
 interface SubjectService {
 
-    @GET
+    @GET("json.php")
     fun getSchedule(): Observable<List<SubjectResponse>>
 }

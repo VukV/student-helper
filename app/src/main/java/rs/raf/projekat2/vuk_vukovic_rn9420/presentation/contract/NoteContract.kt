@@ -20,9 +20,7 @@ interface NoteContract {
         fun getByTitleOrContent(searchTag: String, archivedSearch: Boolean)
 
         fun insert(title: String, content: String)
-        fun updateById(id: Long, title: String, content: String)
-        fun updateArchivedById(id: Long, archived: Boolean)
-
-        fun deleteById(id: Long)
+        fun update(id: Int, title: String, content: String, archived: Boolean)
+        fun deleteById(id: Int)
     }
 }

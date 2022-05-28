@@ -10,7 +10,6 @@ interface NoteRepository {
     fun getAllByTitleOrContent(searchTag: String, archivedSearch: Boolean): Observable<List<Note>>
     fun getOnlyUnarchived(): Observable<List<Note>>
     fun insert(title: String, content: String): Completable
-    fun updateById(id: Long, title: String, content: String): Completable
-    fun updateArchivedById(id: Long, archived: Boolean): Completable
-    fun deleteById(id: Long): Completable
+    fun update(id: Int, title: String, content: String, archived: Boolean): Completable
+    fun deleteById(id: Int): Completable
 }

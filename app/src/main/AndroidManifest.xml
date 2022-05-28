@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="rs.raf.projekat2.vuk_vukovic_rn9420">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".application.StudentHelper"
         android:allowBackup="true"

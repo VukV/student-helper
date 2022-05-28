@@ -1,7 +1,5 @@
 package rs.raf.projekat2.vuk_vukovic_rn9420.presentation.viewmodel
 
-import android.icu.text.StringSearch
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -109,9 +107,9 @@ class NoteViewModel(
         subscriptions.add(subscription)
     }
 
-    override fun updateById(id: Long, title: String, content: String) {
+    override fun update(id: Int, title: String, content: String, archived: Boolean) {
         val subscription = noteRepository
-            .updateById(id, title, content)
+            .update(id, title, content, archived)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -126,24 +124,7 @@ class NoteViewModel(
         subscriptions.add(subscription)
     }
 
-    override fun updateArchivedById(id: Long, archived: Boolean) {
-        val subscription = noteRepository
-            .updateArchivedById(id, archived)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    editNoteState.value = EditNoteState.Success
-                },
-                {
-                    editNoteState.value = EditNoteState.Error("Greška sa bazom podataka")
-                    Timber.e(it)
-                }
-            )
-        subscriptions.add(subscription)
-    }
-
-    override fun deleteById(id: Long) {
+    override fun deleteById(id: Int) {
         val subscription = noteRepository
             .deleteById(id)
             .subscribeOn(Schedulers.io())

@@ -54,15 +54,19 @@ class NoteRepositoryImpl(private val localDataSource: NoteDao) : NoteRepository 
         return localDataSource.insert(noteEntity)
     }
 
-    override fun updateById(id: Long, title: String, content: String): Completable {
-        return localDataSource.updateById(id, title, content)
+    override fun update(id: Int, title: String, content: String, archived: Boolean): Completable {
+        val noteEntity = NoteEntity(
+            id = id,
+            title = title,
+            content = content,
+            archived = false
+        )
+
+        return localDataSource.update(noteEntity)
     }
 
-    override fun updateArchivedById(id: Long, archived: Boolean): Completable {
-        return localDataSource.updateArchivedById(id, archived)
-    }
 
-    override fun deleteById(id: Long): Completable {
+    override fun deleteById(id: Int): Completable {
         return localDataSource.deleteById(id)
     }
 }

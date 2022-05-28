@@ -14,7 +14,7 @@ abstract class NoteDao {
     abstract fun getAll(): Observable<List<NoteEntity>>
 
     @Query("SELECT * FROM notes WHERE id == :id")
-    abstract fun getById(id: Long): NoteEntity
+    abstract fun getById(id: Int): NoteEntity
 
     @Query("SELECT * FROM notes WHERE archived == 'false'")
     abstract fun getAllUnarchived(): Observable<List<NoteEntity>>
@@ -32,27 +32,27 @@ abstract class NoteDao {
     abstract fun update(noteEntity: NoteEntity): Completable
 
     @Transaction
-    open fun updateById(id: Long, title: String, content: String): Completable {
+    open fun updateById(id: Int, title: String, content: String) {
         val note = getById(id)
         val updatedNote = note.copy(
             title = title,
             content = content
         )
-        return update(updatedNote)
+        return update(updatedNote).blockingAwait()
     }
 
     @Transaction
-    open fun updateArchivedById(id: Long, archived: Boolean): Completable{
+    open fun updateArchivedById(id: Int, archived: Boolean){
         val note = getById(id)
         val updatedNote = note.copy(
             archived = archived
         )
-        return update(updatedNote)
+        return update(updatedNote).blockingAwait()
     }
 
     @Delete
     abstract fun delete(noteEntity: NoteEntity): Completable
 
     @Query("DELETE FROM notes WHERE id == :id")
-    abstract fun deleteById(id: Long): Completable
+    abstract fun deleteById(id: Int): Completable
 }
