@@ -1,7 +1,7 @@
 package rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.recycler.subject
 
 import androidx.recyclerview.widget.RecyclerView
-import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.Subject
+import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.subject.Subject
 import rs.raf.projekat2.vuk_vukovic_rn9420.databinding.ItemSubjectBinding
 
 class SubjectViewHolder(private val itemSubjectBinding: ItemSubjectBinding) : RecyclerView.ViewHolder(itemSubjectBinding.root) {
