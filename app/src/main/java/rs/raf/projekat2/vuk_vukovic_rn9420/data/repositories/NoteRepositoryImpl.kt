@@ -4,30 +4,44 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import rs.raf.projekat2.vuk_vukovic_rn9420.data.datasources.local.NoteDao
 import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.note.Note
+import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.note.NoteEntity
 
 class NoteRepositoryImpl(private val localDataSource: NoteDao) : NoteRepository {
 
     override fun getAll(): Observable<List<Note>> {
-        TODO("Not yet implemented")
+        return localDataSource.getAll().map {
+            it.map {
+                Note(it.id!!, it.title, it.content, it.archived)
+            }
+        }
     }
 
     override fun getAllByTitleOrContent(searchTag: String): Observable<List<Note>> {
-        TODO("Not yet implemented")
+        return localDataSource.getByTitleOrContent(searchTag).map {
+            it.map {
+                Note(it.id!!, it.title, it.content, it.archived)
+            }
+        }
     }
 
     override fun insert(title: String, content: String): Completable {
-        TODO("Not yet implemented")
+        val noteEntity = NoteEntity(
+            title = title,
+            content = content,
+            archived = false
+        )
+        return localDataSource.insert(noteEntity)
     }
 
     override fun updateById(id: Long, title: String, content: String): Completable {
-        TODO("Not yet implemented")
+        return localDataSource.updateById(id, title, content)
     }
 
     override fun updateArchivedById(id: Long, archived: Boolean): Completable {
-        TODO("Not yet implemented")
+        return localDataSource.updateArchivedById(id, archived)
     }
 
     override fun deleteById(id: Long): Completable {
-        TODO("Not yet implemented")
+        return localDataSource.deleteById(id)
     }
 }

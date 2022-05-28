@@ -23,30 +23,30 @@ abstract class NoteDao {
     abstract fun insert(noteEntity: NoteEntity): Completable
 
     @Update
-    abstract fun update(noteEntity: NoteEntity)
+    abstract fun update(noteEntity: NoteEntity): Completable
 
     @Transaction
-    open fun updateById(id: Long, title: String, content: String) {
+    open fun updateById(id: Long, title: String, content: String): Completable {
         val note = getById(id)
         val updatedNote = note.copy(
             title = title,
             content = content
         )
-        update(updatedNote)
+        return update(updatedNote)
     }
 
     @Transaction
-    open fun updateArchivedById(id: Long, archived: Boolean){
+    open fun updateArchivedById(id: Long, archived: Boolean): Completable{
         val note = getById(id)
         val updatedNote = note.copy(
             archived = archived
         )
-        update(updatedNote)
+        return update(updatedNote)
     }
 
     @Delete
-    abstract fun delete(noteEntity: NoteEntity)
+    abstract fun delete(noteEntity: NoteEntity): Completable
 
     @Query("DELETE FROM notes WHERE id == :id")
-    abstract fun deleteById(id: Long)
+    abstract fun deleteById(id: Long): Completable
 }
