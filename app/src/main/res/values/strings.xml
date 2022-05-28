@@ -14,6 +14,8 @@
     <string name="save_note">Sačuvaj</string>
     <string name="cancel_note">Odustani</string>
 
+    <string name="username">Korisničko Ime</string>
+
     <string-array name="days_array">
         <item>Dan</item>
         <item>PON</item>
