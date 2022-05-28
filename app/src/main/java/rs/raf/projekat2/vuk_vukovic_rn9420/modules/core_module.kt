@@ -20,6 +20,12 @@ val coreModule = module {
         androidApplication().getSharedPreferences(androidApplication().packageName, Context.MODE_PRIVATE)
     }
 
+    /*
+    single<SharedPreferences.Editor> {
+        androidApplication().getSharedPreferences(androidApplication().packageName, Context.MODE_PRIVATE).edit()
+    }
+    */
+
     single { createRetrofit(moshi = get(), httpClient = get()) }
 
     single { createMoshi() }
