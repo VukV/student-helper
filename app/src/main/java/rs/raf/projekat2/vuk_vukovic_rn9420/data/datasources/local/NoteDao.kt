@@ -16,6 +16,9 @@ abstract class NoteDao {
     @Query("SELECT * FROM notes WHERE id == :id")
     abstract fun getById(id: Long): NoteEntity
 
+    @Query("SELECT * FROM notes WHERE archived == 'false'")
+    abstract fun getAllUnarchived(): Observable<List<NoteEntity>>
+
     @Query("SELECT * FROM notes WHERE title LIKE '%' || :searchTag || '%' OR content LIKE '%' || :searchTag || '%'")
     abstract fun getByTitleOrContent(searchTag: String): Observable<List<NoteEntity>>
 

@@ -9,19 +9,30 @@ import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.note.NoteEntity
 class NoteRepositoryImpl(private val localDataSource: NoteDao) : NoteRepository {
 
     override fun getAll(): Observable<List<Note>> {
-        return localDataSource.getAll().map {
-            it.map {
-                Note(it.id!!, it.title, it.content, it.archived)
+        return localDataSource.getAll()
+            .map {
+                it.map {
+                    Note(it.id!!, it.title, it.content, it.archived)
+                }
             }
-        }
     }
 
     override fun getAllByTitleOrContent(searchTag: String): Observable<List<Note>> {
-        return localDataSource.getByTitleOrContent(searchTag).map {
-            it.map {
-                Note(it.id!!, it.title, it.content, it.archived)
+        return localDataSource.getByTitleOrContent(searchTag)
+            .map {
+                it.map {
+                    Note(it.id!!, it.title, it.content, it.archived)
+                }
             }
-        }
+    }
+
+    override fun getOnlyUnarchived(): Observable<List<Note>> {
+        return localDataSource.getAllUnarchived()
+            .map {
+                it.map {
+                    Note(it.id!!, it.title, it.content, it.archived)
+                }
+            }
     }
 
     override fun insert(title: String, content: String): Completable {
