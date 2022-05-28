@@ -22,6 +22,9 @@ abstract class NoteDao {
     @Query("SELECT * FROM notes WHERE title LIKE '%' || :searchTag || '%' OR content LIKE '%' || :searchTag || '%'")
     abstract fun getByTitleOrContent(searchTag: String): Observable<List<NoteEntity>>
 
+    @Query("SELECT * FROM notes WHERE (title LIKE '%' || :searchTag || '%' OR content LIKE '%' || :searchTag || '%') AND archived == 'false'")
+    abstract fun getByTitleOrContentUnarchived(searchTag: String): Observable<List<NoteEntity>>
+
     @Insert
     abstract fun insert(noteEntity: NoteEntity): Completable
 

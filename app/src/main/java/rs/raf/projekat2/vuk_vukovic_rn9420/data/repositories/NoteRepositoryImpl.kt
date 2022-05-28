@@ -17,13 +17,23 @@ class NoteRepositoryImpl(private val localDataSource: NoteDao) : NoteRepository 
             }
     }
 
-    override fun getAllByTitleOrContent(searchTag: String): Observable<List<Note>> {
-        return localDataSource.getByTitleOrContent(searchTag)
-            .map {
-                it.map {
-                    Note(it.id!!, it.title, it.content, it.archived)
+    override fun getAllByTitleOrContent(searchTag: String, archivedSearch: Boolean): Observable<List<Note>> {
+        if(archivedSearch){
+            return localDataSource.getByTitleOrContent(searchTag)
+                .map {
+                    it.map {
+                        Note(it.id!!, it.title, it.content, it.archived)
+                    }
                 }
-            }
+        }
+        else{
+            return localDataSource.getByTitleOrContentUnarchived(searchTag)
+                .map {
+                    it.map {
+                        Note(it.id!!, it.title, it.content, it.archived)
+                    }
+                }
+        }
     }
 
     override fun getOnlyUnarchived(): Observable<List<Note>> {

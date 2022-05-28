@@ -7,7 +7,7 @@ import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.note.Note
 interface NoteRepository {
 
     fun getAll(): Observable<List<Note>>
-    fun getAllByTitleOrContent(searchTag: String): Observable<List<Note>>
+    fun getAllByTitleOrContent(searchTag: String, archivedSearch: Boolean): Observable<List<Note>>
     fun getOnlyUnarchived(): Observable<List<Note>>
     fun insert(title: String, content: String): Completable
     fun updateById(id: Long, title: String, content: String): Completable
