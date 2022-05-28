@@ -1,5 +1,6 @@
 package rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.fragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,15 +13,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
-import rs.raf.projekat2.vuk_vukovic_rn9420.data.pinData
+import androidx.fragment.app.commit
+import org.koin.android.ext.android.inject
+import rs.raf.projekat2.vuk_vukovic_rn9420.R
+import rs.raf.projekat2.vuk_vukovic_rn9420.data.alreadyLoggedIn
+import rs.raf.projekat2.vuk_vukovic_rn9420.data.passwordData
 import rs.raf.projekat2.vuk_vukovic_rn9420.data.usernameData
 
 
 class LoginFragment: Fragment() {
+
+    private val sharedPreferences: SharedPreferences by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +42,6 @@ class LoginFragment: Fragment() {
         }
     }
 
-
     @Composable
     private fun setupLogin(){
         Column(
@@ -45,7 +52,7 @@ class LoginFragment: Fragment() {
                 .padding(32.dp)
         ){
             var username by remember { mutableStateOf(TextFieldValue()) }
-            var pin by remember { mutableStateOf(TextFieldValue()) }
+            var password by remember { mutableStateOf(TextFieldValue()) }
 
             Text(
                 text = "Login",
@@ -54,6 +61,7 @@ class LoginFragment: Fragment() {
             TextField(
                 value = username,
                 onValueChange = {username = it},
+                singleLine = true,
                 label = {Text(text = "Korisničko ime")},
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White,
@@ -66,9 +74,10 @@ class LoginFragment: Fragment() {
                 )
             )
             TextField(
-                value = pin,
-                onValueChange = {pin = it},
-                label = {Text(text = "PIN")},
+                value = password,
+                onValueChange = {password = it},
+                singleLine = true,
+                label = {Text(text = "Šifra")},
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White,
                     focusedIndicatorColor = Color(0xFF0099BC),
@@ -77,11 +86,13 @@ class LoginFragment: Fragment() {
                 ),
                 textStyle = LocalTextStyle.current.copy(
                     fontSize = 20.sp
-                )
+                ),
+                visualTransformation = PasswordVisualTransformation()
             )
             Button(onClick = {
-                if (checkUsername(username.text) && checkPin(pin.text)){
-                    //TODO
+                if (checkUsername(username.text) && checkPassword(password.text)){
+                    loginToSharedPref()
+                    continueToApp()
                 }
             },
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF0099BC)))
@@ -100,12 +111,22 @@ class LoginFragment: Fragment() {
         }
     }
 
-    private fun checkPin(pin: String): Boolean{
-        return if (pin == pinData){
+    private fun checkPassword(password: String): Boolean{
+        return if (password == passwordData){
             true
         } else{
-            Toast.makeText(activity, "Pogrešan PIN", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "Pogrešna Šifra", Toast.LENGTH_SHORT).show()
             false
         }
+    }
+
+    private fun loginToSharedPref(){
+        sharedPreferences.edit().putBoolean(alreadyLoggedIn, true).apply()
+    }
+
+    private fun continueToApp(){
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.fragmentContainerMain, MainFragment())
+        transaction?.commit()
     }
 }
