@@ -5,10 +5,17 @@
     <string name="menu_notes">Beleške</string>
     <string name="menu_stats">Statistika</string>
 
-    <string name="search_hint">Predmet/Profesor...</string>
+    <string name="search_hint">Predmet/Profesor…</string>
     <string name="search">Pretraži</string>
 
+    <string name="new_note">Nova Beleška</string>
+    <string name="search_note_hint">Naslov/Sadržaj…</string>
+
+    <string name="save_note">Sačuvaj</string>
+    <string name="cancel_note">Odustani</string>
+
     <string-array name="days_array">
+        <item>Dan</item>
         <item>PON</item>
         <item>UTO</item>
         <item>SRE</item>
@@ -17,6 +24,7 @@
     </string-array>
 
     <string-array name="groups_array">
+        <item>Grupa</item>
         <item>101</item>
         <item>102</item>
         <item>103</item>

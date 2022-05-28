@@ -15,7 +15,7 @@ import rs.raf.projekat2.vuk_vukovic_rn9420.R
 import rs.raf.projekat2.vuk_vukovic_rn9420.databinding.FragmentScheduleBinding
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.recycler.subject.SubjectAdapter
 
-class ScheduleFragment:Fragment() {
+class ScheduleFragment:Fragment(R.layout.fragment_schedule) {
 
     private var _binding: FragmentScheduleBinding? = null
     private val binding get() = _binding!!
@@ -36,6 +36,7 @@ class ScheduleFragment:Fragment() {
 
         initSpinners()
         initRecycler()
+        initListeners()
         initObservers()
     }
 
@@ -69,7 +70,16 @@ class ScheduleFragment:Fragment() {
         binding.scheduleRecycler.adapter = adapter
     }
 
+    private fun initListeners(){
+        //todo
+    }
+
     private fun initObservers(){
         //TODO
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

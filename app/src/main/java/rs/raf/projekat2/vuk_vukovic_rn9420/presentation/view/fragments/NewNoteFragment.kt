@@ -6,13 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import rs.raf.projekat2.vuk_vukovic_rn9420.R
-import rs.raf.projekat2.vuk_vukovic_rn9420.databinding.FragmentEditNoteBinding
+import rs.raf.projekat2.vuk_vukovic_rn9420.databinding.FragmentNewNoteBinding
 
-class EditNoteFragment : Fragment(R.layout.fragment_edit_note) {
+class NewNoteFragment : Fragment(R.layout.fragment_new_note){
 
-    //TODO konstruktor prima Note koji se menja
-
-    private var _binding: FragmentEditNoteBinding? = null
+    private var _binding: FragmentNewNoteBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -20,22 +18,17 @@ class EditNoteFragment : Fragment(R.layout.fragment_edit_note) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentEditNoteBinding.inflate(inflater, container, false)
+        _binding = FragmentNewNoteBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initNote()
         initListeners()
     }
 
     private fun initListeners(){
-        //todo
-    }
-
-    private fun initNote(){
         //todo
     }
 
