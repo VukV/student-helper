@@ -74,7 +74,10 @@ class NoteRepositoryImpl(private val localDataSource: NoteDao) : NoteRepository 
     }
 
     override fun getLastFiveDays(): Observable<List<Note>> {
-        return localDataSource.getLastFiveDays()
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -5)
+
+        return localDataSource.getLastFiveDays(calendar.time)
             .map {
                 it.map {
                     Note(it.id!!, it.title, it.content, it.archived, it.date)

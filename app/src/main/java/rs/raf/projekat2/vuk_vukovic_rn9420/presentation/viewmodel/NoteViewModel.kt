@@ -186,4 +186,8 @@ class NoteViewModel(
         addNoteState.value = AddNoteState.Neutral
         editNoteState.value = EditNoteState.Neutral
     }
+
+    override fun clearStats() {
+        statsNoteState.value = StatsNoteState.Neutral
+    }
 }

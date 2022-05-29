@@ -26,5 +26,6 @@ interface NoteContract {
         fun getLastFiveDays()
 
         fun setNeutral()
+        fun clearStats()
     }
 }

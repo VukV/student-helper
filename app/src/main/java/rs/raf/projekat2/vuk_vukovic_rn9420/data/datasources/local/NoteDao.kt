@@ -5,6 +5,7 @@ import androidx.room.*
 import io.reactivex.Completable
 import io.reactivex.Observable
 import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.note.NoteEntity
+import java.util.*
 
 
 @Dao
@@ -56,6 +57,6 @@ abstract class NoteDao {
     @Query("DELETE FROM notes WHERE id == :id")
     abstract fun deleteById(id: Int): Completable
 
-    @Query("SELECT * FROM notes WHERE date >= DATE('now', '-5 day')")
-    abstract fun getLastFiveDays(): Observable<List<NoteEntity>>
+    @Query("SELECT * FROM notes WHERE date >= :targetDate")
+    abstract fun getLastFiveDays(targetDate: Date): Observable<List<NoteEntity>>
 }
