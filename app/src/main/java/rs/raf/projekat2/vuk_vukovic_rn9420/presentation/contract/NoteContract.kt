@@ -18,6 +18,7 @@ interface NoteContract {
         fun getAllNotes()
         fun getOnlyUnarchivedNotes()
         fun getByTitleOrContent(searchTag: String, archivedSearch: Boolean)
+        fun getByTitleOrContentSwitch(searchTag: String, archivedSearch: Boolean)
 
         fun insert(title: String, content: String)
         fun update(id: Int, title: String, content: String, archived: Boolean)

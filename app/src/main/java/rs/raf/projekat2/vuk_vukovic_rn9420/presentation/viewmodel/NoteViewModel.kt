@@ -90,6 +90,23 @@ class NoteViewModel(
         publishSubject.onNext(searchTag)
     }
 
+    override fun getByTitleOrContentSwitch(searchTag: String, archivedSearch: Boolean) {
+        val subscription = noteRepository
+            .getAllByTitleOrContent(searchTag, archivedSearch)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    notesState.value = NotesState.Success(it)
+                },
+                {
+                    notesState.value = NotesState.Error("Greška sa bazom podataka")
+                    Timber.e(it)
+                }
+            )
+        subscriptions.add(subscription)
+    }
+
     override fun insert(title: String, content: String) {
         val subscription = noteRepository
             .insert(title, content)

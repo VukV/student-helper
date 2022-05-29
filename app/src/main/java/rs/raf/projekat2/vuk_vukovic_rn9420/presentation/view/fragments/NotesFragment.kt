@@ -74,26 +74,19 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
             val searchTag = binding.noteSearchEditText.text.toString()
             val archived = binding.archiveSwitch.isChecked
 
-            //TODO FIX BUGS
             if(archived){
-                Timber.e("checked")
                 if(searchTag != ""){
-                    Timber.e("checked " + searchTag)
-                    noteViewModel.getByTitleOrContent(searchTag, true)
+                    noteViewModel.getByTitleOrContentSwitch(searchTag, true)
                 }
                 else{
-                    Timber.e("checked only")
                     noteViewModel.getAllNotes()
                 }
             }
             else{
-                Timber.e("UNchecked")
                 if(searchTag != ""){
-                    Timber.e("UNchecked " + searchTag)
-                    noteViewModel.getByTitleOrContent(searchTag, false)
+                    noteViewModel.getByTitleOrContentSwitch(searchTag, false)
                 }
                 else{
-                    Timber.e("UNchecked only")
                     noteViewModel.getOnlyUnarchivedNotes()
                 }
             }

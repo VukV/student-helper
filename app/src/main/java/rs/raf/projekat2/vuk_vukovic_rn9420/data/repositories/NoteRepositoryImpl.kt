@@ -5,6 +5,7 @@ import io.reactivex.Observable
 import rs.raf.projekat2.vuk_vukovic_rn9420.data.datasources.local.NoteDao
 import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.note.Note
 import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.note.NoteEntity
+import timber.log.Timber
 
 class NoteRepositoryImpl(private val localDataSource: NoteDao) : NoteRepository {
 
