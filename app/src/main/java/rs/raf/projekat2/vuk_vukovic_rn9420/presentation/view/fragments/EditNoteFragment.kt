@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import rs.raf.projekat2.vuk_vukovic_rn9420.R
 import rs.raf.projekat2.vuk_vukovic_rn9420.databinding.FragmentEditNoteBinding
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.contract.NoteContract
+import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.AddNoteState
+import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.EditNoteState
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.viewmodel.NoteViewModel
 
 class EditNoteFragment(
@@ -60,15 +63,29 @@ class EditNoteFragment(
                 noteViewModel.update(noteId, newTitle, newContent, noteArchived)
             }
             else{
-                //TODO toast
+                Toast.makeText(context, "Polja ne smeju da budu prazna", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun initObservers(){
         noteViewModel.editNoteState.observe(viewLifecycleOwner, Observer {
-            //TODO
+            handleState(it)
         })
+    }
+
+    private fun handleState(state: EditNoteState){
+        when(state){
+            is EditNoteState.Success -> {
+                Toast.makeText(context, "Beleška uspešno izmenjena", Toast.LENGTH_SHORT).show()
+                noteViewModel.setNeutral()
+                activity?.onBackPressed()
+            }
+            is EditNoteState.Error -> {
+                Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
+            }
+            else -> return
+        }
     }
 
     override fun onDestroyView() {
