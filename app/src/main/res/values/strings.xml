@@ -16,6 +16,9 @@
 
     <string name="username">Korisničko Ime</string>
 
+    <string name="title">Naslov</string>
+    <string name="content">Sadržaj</string>
+
     <string-array name="days_array">
         <item>Dan</item>
         <item>PON</item>

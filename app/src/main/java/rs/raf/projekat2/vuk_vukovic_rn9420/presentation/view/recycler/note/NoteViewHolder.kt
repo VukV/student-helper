@@ -11,7 +11,7 @@ class NoteViewHolder(private val itemNoteBinding: ItemNoteBinding) : RecyclerVie
         itemNoteBinding.noteTitleTextView.text = note.title
         itemNoteBinding.noteContentTextView.text = note.content
 
-        if (note.archived){
+        if (!note.archived){
             itemNoteBinding.archiveButton.setImageResource(R.drawable.ic_archive)
         }else{
             itemNoteBinding.archiveButton.setImageResource(R.drawable.ic_unarchive)
