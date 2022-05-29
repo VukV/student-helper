@@ -15,6 +15,8 @@ import rs.raf.projekat2.vuk_vukovic_rn9420.R
 import rs.raf.projekat2.vuk_vukovic_rn9420.databinding.FragmentNotesBinding
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.contract.NoteContract
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.recycler.note.NoteAdapter
+import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.recycler.note.NoteDiffCallback
+import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.recycler.note.callback.NoteCallbackAction
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.NotesState
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.viewmodel.NoteViewModel
 import timber.log.Timber
@@ -47,16 +49,25 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
 
     private fun initRecycler(){
         binding.notesRecycler.layoutManager = LinearLayoutManager(context)
-        adapter = NoteAdapter()
-        binding.notesRecycler.adapter = adapter
+        adapter = NoteAdapter(NoteDiffCallback()){
+            when(it.action){
+                NoteCallbackAction.DELETE -> {
 
-        //TODO CALLBACKS
+                }
+                NoteCallbackAction.EDIT -> {
+
+                }
+                NoteCallbackAction.ARCHIVE -> {
+
+                }
+            }
+        }
+        binding.notesRecycler.adapter = adapter
     }
 
     private fun initListeners(){
         binding.newNoteButton.setOnClickListener {
-            binding.archiveSwitch.isChecked = true
-            binding.noteSearchEditText.text.clear()
+            clearSearch()
 
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.addToBackStack(null)
@@ -71,25 +82,7 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
         }
 
         binding.archiveSwitch.setOnClickListener {
-            val searchTag = binding.noteSearchEditText.text.toString()
-            val archived = binding.archiveSwitch.isChecked
-
-            if(archived){
-                if(searchTag != ""){
-                    noteViewModel.getByTitleOrContentSwitch(searchTag, true)
-                }
-                else{
-                    noteViewModel.getAllNotes()
-                }
-            }
-            else{
-                if(searchTag != ""){
-                    noteViewModel.getByTitleOrContentSwitch(searchTag, false)
-                }
-                else{
-                    noteViewModel.getOnlyUnarchivedNotes()
-                }
-            }
+            searchNotes()
         }
     }
 
@@ -114,5 +107,32 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun clearSearch(){
+        binding.archiveSwitch.isChecked = true
+        binding.noteSearchEditText.text.clear()
+    }
+
+    private fun searchNotes(){
+        val searchTag = binding.noteSearchEditText.text.toString()
+        val archived = binding.archiveSwitch.isChecked
+
+        if(archived){
+            if(searchTag != ""){
+                noteViewModel.getByTitleOrContentSwitch(searchTag, true)
+            }
+            else{
+                noteViewModel.getAllNotes()
+            }
+        }
+        else{
+            if(searchTag != ""){
+                noteViewModel.getByTitleOrContentSwitch(searchTag, false)
+            }
+            else{
+                noteViewModel.getOnlyUnarchivedNotes()
+            }
+        }
     }
 }
