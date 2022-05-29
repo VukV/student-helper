@@ -13,4 +13,5 @@ interface NoteRepository {
     fun insert(title: String, content: String): Completable
     fun update(id: Int, title: String, content: String, archived: Boolean, date:Date): Completable
     fun deleteById(id: Int): Completable
+    fun getLastFiveDays(): Observable<List<Note>>
 }

@@ -1,10 +1,7 @@
 package rs.raf.projekat2.vuk_vukovic_rn9420.presentation.contract
 
 import androidx.lifecycle.LiveData
-import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.AddNoteState
-import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.DeleteNoteState
-import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.EditNoteState
-import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.NotesState
+import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.*
 import java.util.*
 
 interface NoteContract {
@@ -15,6 +12,7 @@ interface NoteContract {
         val addNoteState: LiveData<AddNoteState>
         val editNoteState: LiveData<EditNoteState>
         val deleteNoteState: LiveData<DeleteNoteState>
+        val statsNoteState: LiveData<StatsNoteState>
 
         fun getAllNotes()
         fun getOnlyUnarchivedNotes()
@@ -24,6 +22,8 @@ interface NoteContract {
         fun insert(title: String, content: String)
         fun update(id: Int, title: String, content: String, archived: Boolean, date: Date)
         fun deleteById(id: Int)
+
+        fun getLastFiveDays()
 
         fun setNeutral()
     }

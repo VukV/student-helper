@@ -72,4 +72,13 @@ class NoteRepositoryImpl(private val localDataSource: NoteDao) : NoteRepository 
     override fun deleteById(id: Int): Completable {
         return localDataSource.deleteById(id)
     }
+
+    override fun getLastFiveDays(): Observable<List<Note>> {
+        return localDataSource.getLastFiveDays()
+            .map {
+                it.map {
+                    Note(it.id!!, it.title, it.content, it.archived, it.date)
+                }
+            }
+    }
 }

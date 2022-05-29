@@ -24,6 +24,7 @@ class NoteViewModel(
     override val addNoteState: MutableLiveData<AddNoteState> = MutableLiveData()
     override val editNoteState: MutableLiveData<EditNoteState> = MutableLiveData()
     override val deleteNoteState: MutableLiveData<DeleteNoteState> = MutableLiveData()
+    override val statsNoteState: MutableLiveData<StatsNoteState> = MutableLiveData()
 
     private var archivedSearch: Boolean = true
 
@@ -153,6 +154,23 @@ class NoteViewModel(
                 },
                 {
                     deleteNoteState.value = DeleteNoteState.Error("Greška sa bazom podataka")
+                    Timber.e(it)
+                }
+            )
+        subscriptions.add(subscription)
+    }
+
+    override fun getLastFiveDays() {
+        val subscription = noteRepository
+            .getLastFiveDays()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    statsNoteState.value = StatsNoteState.Success(it)
+                },
+                {
+                    statsNoteState.value = StatsNoteState.Error("Greška sa bazom podataka")
                     Timber.e(it)
                 }
             )

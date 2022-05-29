@@ -55,4 +55,7 @@ abstract class NoteDao {
 
     @Query("DELETE FROM notes WHERE id == :id")
     abstract fun deleteById(id: Int): Completable
+
+    @Query("SELECT * FROM notes WHERE date >= DATE('now', '-5 day')")
+    abstract fun getLastFiveDays(): Observable<List<NoteEntity>>
 }
