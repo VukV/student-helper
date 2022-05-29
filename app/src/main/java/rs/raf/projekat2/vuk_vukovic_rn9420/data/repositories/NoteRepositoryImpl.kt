@@ -6,6 +6,7 @@ import rs.raf.projekat2.vuk_vukovic_rn9420.data.datasources.local.NoteDao
 import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.note.Note
 import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.note.NoteEntity
 import timber.log.Timber
+import java.util.*
 
 class NoteRepositoryImpl(private val localDataSource: NoteDao) : NoteRepository {
 
@@ -13,7 +14,7 @@ class NoteRepositoryImpl(private val localDataSource: NoteDao) : NoteRepository 
         return localDataSource.getAll()
             .map {
                 it.map {
-                    Note(it.id!!, it.title, it.content, it.archived)
+                    Note(it.id!!, it.title, it.content, it.archived, it.date)
                 }
             }
     }
@@ -23,7 +24,7 @@ class NoteRepositoryImpl(private val localDataSource: NoteDao) : NoteRepository 
             return localDataSource.getByTitleOrContent(searchTag)
                 .map {
                     it.map {
-                        Note(it.id!!, it.title, it.content, it.archived)
+                        Note(it.id!!, it.title, it.content, it.archived, it.date)
                     }
                 }
         }
@@ -31,7 +32,7 @@ class NoteRepositoryImpl(private val localDataSource: NoteDao) : NoteRepository 
             return localDataSource.getByTitleOrContentUnarchived(searchTag)
                 .map {
                     it.map {
-                        Note(it.id!!, it.title, it.content, it.archived)
+                        Note(it.id!!, it.title, it.content, it.archived, it.date)
                     }
                 }
         }
@@ -41,7 +42,7 @@ class NoteRepositoryImpl(private val localDataSource: NoteDao) : NoteRepository 
         return localDataSource.getAllUnarchived()
             .map {
                 it.map {
-                    Note(it.id!!, it.title, it.content, it.archived)
+                    Note(it.id!!, it.title, it.content, it.archived, it.date)
                 }
             }
     }
@@ -55,12 +56,13 @@ class NoteRepositoryImpl(private val localDataSource: NoteDao) : NoteRepository 
         return localDataSource.insert(noteEntity)
     }
 
-    override fun update(id: Int, title: String, content: String, archived: Boolean): Completable {
+    override fun update(id: Int, title: String, content: String, archived: Boolean, date: Date): Completable {
         val noteEntity = NoteEntity(
             id = id,
             title = title,
             content = content,
-            archived = archived
+            archived = archived,
+            date = date
         )
 
         return localDataSource.update(noteEntity)

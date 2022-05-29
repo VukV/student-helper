@@ -14,12 +14,14 @@ import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.contract.NoteContract
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.AddNoteState
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.EditNoteState
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.viewmodel.NoteViewModel
+import java.util.*
 
 class EditNoteFragment(
     private val noteId: Int,
     private val noteTile: String,
     private val noteContent: String,
-    private val noteArchived: Boolean
+    private val noteArchived: Boolean,
+    private val noteDate: Date
 ) : Fragment(R.layout.fragment_edit_note) {
 
     private val noteViewModel: NoteContract.ViewModel by sharedViewModel<NoteViewModel>()
@@ -60,7 +62,7 @@ class EditNoteFragment(
             val newContent = binding.editContent.text.toString()
 
             if (newTitle != "" && newContent != ""){
-                noteViewModel.update(noteId, newTitle, newContent, noteArchived)
+                noteViewModel.update(noteId, newTitle, newContent, noteArchived, noteDate)
             }
             else{
                 Toast.makeText(context, "Polja ne smeju da budu prazna", Toast.LENGTH_SHORT).show()

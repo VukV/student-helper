@@ -20,6 +20,7 @@ class NoteAdapter(
             it.noteTile = note.title
             it.noteContent = note.content
             it.noteArchive = note.archived
+            it.noteDate = note.date
 
             onNoteClicked.invoke(it)
         }

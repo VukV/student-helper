@@ -10,6 +10,7 @@ import rs.raf.projekat2.vuk_vukovic_rn9420.data.repositories.NoteRepository
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.contract.NoteContract
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.*
 import timber.log.Timber
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 class NoteViewModel(
@@ -124,9 +125,9 @@ class NoteViewModel(
         subscriptions.add(subscription)
     }
 
-    override fun update(id: Int, title: String, content: String, archived: Boolean) {
+    override fun update(id: Int, title: String, content: String, archived: Boolean, date: Date) {
         val subscription = noteRepository
-            .update(id, title, content, archived)
+            .update(id, title, content, archived, date)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(

@@ -11,6 +11,7 @@ import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.subject.SubjectEntity
     version = 1,
     exportSchema = false
 )
+@TypeConverters(DateConverter::class)
 abstract class Database : RoomDatabase(){
     abstract fun getSubjectDao(): SubjectDao
     abstract fun getNoteDao(): NoteDao

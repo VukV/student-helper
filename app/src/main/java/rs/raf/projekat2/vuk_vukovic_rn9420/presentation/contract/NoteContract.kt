@@ -5,6 +5,7 @@ import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.AddNoteState
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.DeleteNoteState
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.EditNoteState
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.NotesState
+import java.util.*
 
 interface NoteContract {
 
@@ -21,7 +22,7 @@ interface NoteContract {
         fun getByTitleOrContentSwitch(searchTag: String, archivedSearch: Boolean)
 
         fun insert(title: String, content: String)
-        fun update(id: Int, title: String, content: String, archived: Boolean)
+        fun update(id: Int, title: String, content: String, archived: Boolean, date: Date)
         fun deleteById(id: Int)
 
         fun setNeutral()

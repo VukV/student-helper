@@ -55,11 +55,18 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
                     noteViewModel.deleteById(it.noteId!!)
                 }
                 NoteCallbackAction.EDIT -> {
-                    Timber.e("DOHVACEN " + it.noteArchive)
+                    clearSearch()
+
+                    val transaction = activity?.supportFragmentManager?.beginTransaction()
+                    transaction?.addToBackStack(null)
+                    transaction?.replace(R.id.fragmentContainerMain,
+                        EditNoteFragment(it.noteId!!, it.noteTile!!, it.noteContent!!, it.noteArchive!!, it.noteDate!!))
+
+                    transaction?.commit()
                 }
                 NoteCallbackAction.ARCHIVE -> {
-                    Timber.e(it.noteArchive!!.toString())
-                    noteViewModel.update(it.noteId!!, it.noteTile!!, it.noteContent!!, !it.noteArchive!!)
+                    Timber.e(it.noteDate.toString())
+                    noteViewModel.update(it.noteId!!, it.noteTile!!, it.noteContent!!, !it.noteArchive!!, it.noteDate!!)
                     //TODO ICON CHANGE
                 }
             }
