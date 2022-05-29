@@ -16,15 +16,19 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.note.Note
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.contract.NoteContract
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.StatsNoteState
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.viewmodel.NoteViewModel
 import timber.log.Timber
+import java.util.*
+import kotlin.collections.HashMap
+import kotlin.random.Random
 
 class StatsFragment: Fragment() {
 
     private val noteViewModel: NoteContract.ViewModel by sharedViewModel<NoteViewModel>()
-    private var days by mutableStateOf(listOf<Int>())
+    private var days by mutableStateOf(sortedMapOf(Pair("", 0)))
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,13 +73,20 @@ class StatsFragment: Fragment() {
             )
             Text(
                 text = "Beleške poslednjih 5 dana",
-                fontSize = 15.sp
+                fontSize = 20.sp
             )
 
             Row(
                 modifier = Modifier.padding(vertical = 20.dp)
             ) {
 
+            }
+            Column {
+                days.forEach {
+                    Text(
+                        text = "Dan: ${it.key} - ${it.value}", fontSize = 20.sp
+                    )
+                }
             }
         }
     }
@@ -89,7 +100,7 @@ class StatsFragment: Fragment() {
     private fun renderStats(state: StatsNoteState){
         when(state){
             is StatsNoteState.Success -> {
-                days = listOf(1, 4, 5)
+                days = filterDates(state.notes)
                 Timber.e(state.notes.toString())
             }
             is StatsNoteState.Error -> {
@@ -97,5 +108,23 @@ class StatsFragment: Fragment() {
             }
             else -> return
         }
+    }
+
+    private fun filterDates(notes: List<Note>): SortedMap<String, Int>{
+        val notesToFilter: List<Note> = notes
+        val notesMap: HashMap<String, Int> = HashMap()
+
+        for(note in notesToFilter){
+            val newDate = note.date.toString().split(" ")
+
+            val key = newDate[1] + " " + newDate[2] + " " + newDate[5]
+            when (val count = notesMap[key])
+            {
+                null -> notesMap[key] = 1
+                else -> notesMap[key] = count + 1
+            }
+        }
+
+        return notesMap.toSortedMap()
     }
 }
