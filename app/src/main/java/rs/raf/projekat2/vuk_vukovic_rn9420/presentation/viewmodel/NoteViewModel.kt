@@ -25,6 +25,7 @@ class NoteViewModel(
     override val editNoteState: MutableLiveData<EditNoteState> = MutableLiveData()
     override val deleteNoteState: MutableLiveData<DeleteNoteState> = MutableLiveData()
     override val statsNoteState: MutableLiveData<StatsNoteState> = MutableLiveData()
+    override val archivedNoteState: MutableLiveData<ArchivedNoteState> = MutableLiveData()
 
     private var archivedSearch: Boolean = true
 
@@ -137,6 +138,23 @@ class NoteViewModel(
                 },
                 {
                     editNoteState.value = EditNoteState.Error("Greška sa bazom podataka")
+                    Timber.e(it)
+                }
+            )
+        subscriptions.add(subscription)
+    }
+
+    override fun updateArchived(id: Int, title: String, content: String, archived: Boolean, date: Date, recyclerPosition: Int) {
+        val subscription = noteRepository
+            .update(id, title, content, archived, date)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    archivedNoteState.value = ArchivedNoteState.Success(recyclerPosition)
+                },
+                {
+                    archivedNoteState.value = ArchivedNoteState.Error("Greška sa bazom podataka")
                     Timber.e(it)
                 }
             )

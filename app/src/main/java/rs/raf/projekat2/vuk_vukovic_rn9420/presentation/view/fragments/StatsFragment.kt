@@ -10,11 +10,20 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import me.bytebeats.views.charts.LabelFormatter
+import me.bytebeats.views.charts.bar.BarChart
+import me.bytebeats.views.charts.bar.BarChartData
+import me.bytebeats.views.charts.bar.render.bar.SimpleBarDrawer
+import me.bytebeats.views.charts.bar.render.label.SimpleLabelDrawer
+import me.bytebeats.views.charts.bar.render.xaxis.SimpleXAxisDrawer
+import me.bytebeats.views.charts.bar.render.yaxis.SimpleYAxisDrawer
+import me.bytebeats.views.charts.simpleChartAnimation
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import rs.raf.projekat2.vuk_vukovic_rn9420.data.models.note.Note
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.contract.NoteContract
@@ -22,6 +31,7 @@ import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.StatsNoteSta
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.viewmodel.NoteViewModel
 import timber.log.Timber
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import kotlin.random.Random
 
@@ -76,19 +86,34 @@ class StatsFragment: Fragment() {
                 fontSize = 20.sp
             )
 
-            Row(
-                modifier = Modifier.padding(vertical = 20.dp)
-            ) {
-
-            }
-            Column {
-                days.forEach {
-                    Text(
-                        text = "Dan: ${it.key} - ${it.value}", fontSize = 20.sp
-                    )
-                }
-            }
+            BarChartView()
         }
+    }
+
+    @Composable
+    fun BarChartView() {
+        val barList:MutableList<BarChartData.Bar> = ArrayList()
+        days.forEach{
+            barList.add(
+                BarChartData.Bar(
+                    label = it.key,
+                    value = it.value.toFloat(),
+                    color = Color(0xFF0099BC)
+                )
+            )
+        }
+
+        BarChart(
+            barChartData = BarChartData(bars = barList),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 30.dp),
+            animation = simpleChartAnimation(),
+            barDrawer = SimpleBarDrawer(),
+            xAxisDrawer = SimpleXAxisDrawer(),
+            yAxisDrawer = SimpleYAxisDrawer(drawLabelEvery = 5),
+            labelDrawer = SimpleLabelDrawer(drawLocation = SimpleLabelDrawer.DrawLocation.XAxis)
+        )
     }
 
     private fun initObservers(){
@@ -118,8 +143,7 @@ class StatsFragment: Fragment() {
             val newDate = note.date.toString().split(" ")
 
             val key = newDate[1] + " " + newDate[2] + " " + newDate[5]
-            when (val count = notesMap[key])
-            {
+            when (val count = notesMap[key]) {
                 null -> notesMap[key] = 1
                 else -> notesMap[key] = count + 1
             }

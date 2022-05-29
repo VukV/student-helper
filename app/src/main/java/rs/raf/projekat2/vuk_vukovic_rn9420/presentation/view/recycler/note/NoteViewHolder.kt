@@ -15,7 +15,7 @@ class NoteViewHolder(
     init {
         itemNoteBinding.editButton.setOnClickListener {
             val noteInfo = NoteCallbackInfo(
-                position = adapterPosition,
+                position = absoluteAdapterPosition,
                 action = NoteCallbackAction.EDIT
             )
             onNoteClicked.invoke(noteInfo)
@@ -23,7 +23,7 @@ class NoteViewHolder(
 
         itemNoteBinding.deleteButton.setOnClickListener {
             val noteInfo = NoteCallbackInfo(
-                position = adapterPosition,
+                position = absoluteAdapterPosition,
                 action = NoteCallbackAction.DELETE
             )
             onNoteClicked.invoke(noteInfo)
@@ -31,7 +31,7 @@ class NoteViewHolder(
 
         itemNoteBinding.archiveButton.setOnClickListener {
             val noteInfo = NoteCallbackInfo(
-                position = adapterPosition,
+                position = absoluteAdapterPosition,
                 action = NoteCallbackAction.ARCHIVE
             )
             onNoteClicked.invoke(noteInfo)
