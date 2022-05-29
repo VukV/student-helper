@@ -60,7 +60,7 @@ class NoteRepositoryImpl(private val localDataSource: NoteDao) : NoteRepository 
             id = id,
             title = title,
             content = content,
-            archived = false
+            archived = archived
         )
 
         return localDataSource.update(noteEntity)

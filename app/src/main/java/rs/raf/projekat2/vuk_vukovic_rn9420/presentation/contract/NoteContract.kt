@@ -23,5 +23,7 @@ interface NoteContract {
         fun insert(title: String, content: String)
         fun update(id: Int, title: String, content: String, archived: Boolean)
         fun deleteById(id: Int)
+
+        fun setNeutral()
     }
 }

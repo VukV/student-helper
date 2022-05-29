@@ -16,13 +16,13 @@ abstract class NoteDao {
     @Query("SELECT * FROM notes WHERE id == :id")
     abstract fun getById(id: Int): NoteEntity
 
-    @Query("SELECT * FROM notes WHERE archived == 'false'")
+    @Query("SELECT * FROM notes WHERE archived == 0")
     abstract fun getAllUnarchived(): Observable<List<NoteEntity>>
 
     @Query("SELECT * FROM notes WHERE title LIKE '%' || :searchTag || '%' OR content LIKE '%' || :searchTag || '%'")
     abstract fun getByTitleOrContent(searchTag: String): Observable<List<NoteEntity>>
 
-    @Query("SELECT * FROM notes WHERE (title LIKE '%' || :searchTag || '%' OR content LIKE '%' || :searchTag || '%') AND archived == 'false'")
+    @Query("SELECT * FROM notes WHERE (title LIKE '%' || :searchTag || '%' OR content LIKE '%' || :searchTag || '%') AND archived == 0")
     abstract fun getByTitleOrContentUnarchived(searchTag: String): Observable<List<NoteEntity>>
 
     @Insert

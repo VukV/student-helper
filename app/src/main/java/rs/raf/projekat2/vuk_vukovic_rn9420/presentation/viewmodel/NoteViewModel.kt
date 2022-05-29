@@ -162,4 +162,9 @@ class NoteViewModel(
         super.onCleared()
         subscriptions.dispose()
     }
+
+    override fun setNeutral() {
+        addNoteState.value = AddNoteState.Neutral
+        editNoteState.value = EditNoteState.Neutral
+    }
 }

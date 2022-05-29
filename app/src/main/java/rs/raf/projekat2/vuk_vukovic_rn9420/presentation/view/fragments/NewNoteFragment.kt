@@ -39,6 +39,7 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note){
 
     private fun initListeners(){
         binding.cancelNewButton.setOnClickListener {
+            noteViewModel.setNeutral()
             activity?.onBackPressed()
         }
 
@@ -66,11 +67,13 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note){
         when(state){
             is AddNoteState.Success -> {
                 Toast.makeText(context, "Beleška uspešno dodata", Toast.LENGTH_SHORT).show()
+                noteViewModel.setNeutral()
                 activity?.onBackPressed()
             }
             is AddNoteState.Error -> {
                 Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
             }
+            else -> return
         }
     }
 

@@ -52,13 +52,15 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
         adapter = NoteAdapter(NoteDiffCallback()){
             when(it.action){
                 NoteCallbackAction.DELETE -> {
-
+                    noteViewModel.deleteById(it.noteId!!)
                 }
                 NoteCallbackAction.EDIT -> {
-
+                    Timber.e("DOHVACEN " + it.noteArchive)
                 }
                 NoteCallbackAction.ARCHIVE -> {
-
+                    Timber.e(it.noteArchive!!.toString())
+                    noteViewModel.update(it.noteId!!, it.noteTile!!, it.noteContent!!, !it.noteArchive!!)
+                    //TODO ICON CHANGE
                 }
             }
         }
@@ -89,6 +91,11 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
     private fun initObservers(){
         noteViewModel.notesState.observe(viewLifecycleOwner, Observer {
             renderState(it)
+        })
+        noteViewModel.editNoteState.observe(viewLifecycleOwner, Observer {
+            Timber.e("EDIT NOTE STATE")
+            //searchNotes()
+            //TODO ICON CHANGE
         })
         noteViewModel.getAllNotes()
     }
