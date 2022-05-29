@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +17,7 @@ import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.contract.NoteContract
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.recycler.note.NoteAdapter
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.NotesState
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.viewmodel.NoteViewModel
+import timber.log.Timber
 
 class NotesFragment:Fragment(R.layout.fragment_notes) {
 
@@ -52,12 +55,49 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
 
     private fun initListeners(){
         binding.newNoteButton.setOnClickListener {
+            binding.archiveSwitch.isChecked = true
+            binding.noteSearchEditText.text.clear()
+
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.addToBackStack(null)
             transaction?.replace(R.id.fragmentContainerMain, NewNoteFragment())
             transaction?.commit()
         }
-        //todo
+
+        binding.noteSearchEditText.doAfterTextChanged {
+            val searchTag = it.toString()
+            val archived = binding.archiveSwitch.isChecked
+            noteViewModel.getByTitleOrContent(searchTag, archived)
+        }
+
+        binding.archiveSwitch.setOnClickListener {
+            val searchTag = binding.noteSearchEditText.text.toString()
+            val archived = binding.archiveSwitch.isChecked
+
+            //TODO FIX BUGS
+            if(archived){
+                Timber.e("checked")
+                if(searchTag != ""){
+                    Timber.e("checked " + searchTag)
+                    noteViewModel.getByTitleOrContent(searchTag, true)
+                }
+                else{
+                    Timber.e("checked only")
+                    noteViewModel.getAllNotes()
+                }
+            }
+            else{
+                Timber.e("UNchecked")
+                if(searchTag != ""){
+                    Timber.e("UNchecked " + searchTag)
+                    noteViewModel.getByTitleOrContent(searchTag, false)
+                }
+                else{
+                    Timber.e("UNchecked only")
+                    noteViewModel.getOnlyUnarchivedNotes()
+                }
+            }
+        }
     }
 
     private fun initObservers(){
