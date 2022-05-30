@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import me.bytebeats.views.charts.LabelFormatter
 import me.bytebeats.views.charts.bar.BarChart
 import me.bytebeats.views.charts.bar.BarChartData
 import me.bytebeats.views.charts.bar.render.bar.SimpleBarDrawer
@@ -92,6 +91,9 @@ class StatsFragment: Fragment() {
 
     @Composable
     fun BarChartView() {
+        if(days.isEmpty()){
+            return
+        }
         val barList:MutableList<BarChartData.Bar> = ArrayList()
         days.forEach{
             barList.add(
