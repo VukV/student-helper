@@ -151,5 +151,4 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
             }
         }
     }
-
 }
