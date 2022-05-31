@@ -18,7 +18,7 @@ class NoteViewHolder(
                 position = absoluteAdapterPosition,
                 action = NoteCallbackAction.EDIT
             )
-            onNoteClicked.invoke(noteInfo)
+            onNoteClicked(noteInfo)
         }
 
         itemNoteBinding.deleteButton.setOnClickListener {
@@ -26,7 +26,7 @@ class NoteViewHolder(
                 position = absoluteAdapterPosition,
                 action = NoteCallbackAction.DELETE
             )
-            onNoteClicked.invoke(noteInfo)
+            onNoteClicked(noteInfo)
         }
 
         itemNoteBinding.archiveButton.setOnClickListener {
@@ -34,7 +34,7 @@ class NoteViewHolder(
                 position = absoluteAdapterPosition,
                 action = NoteCallbackAction.ARCHIVE
             )
-            onNoteClicked.invoke(noteInfo)
+            onNoteClicked(noteInfo)
         }
     }
 

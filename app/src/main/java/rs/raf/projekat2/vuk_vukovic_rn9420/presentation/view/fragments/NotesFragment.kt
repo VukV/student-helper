@@ -97,18 +97,16 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
     }
 
     private fun initObservers(){
-        noteViewModel.notesState.observe(viewLifecycleOwner, Observer {
+        noteViewModel.notesState.observe(viewLifecycleOwner) {
             renderState(it)
-        })
-        noteViewModel.archivedNoteState.observe(viewLifecycleOwner, Observer {
+        }
+        noteViewModel.archivedNoteState.observe(viewLifecycleOwner) {
             Timber.e("EDIT NOTE STATE")
-            //TODO ICON CHANGE
-            //handleArchived(it)
             searchNotes()
-        })
-        noteViewModel.deleteNoteState.observe(viewLifecycleOwner, Observer {
+        }
+        noteViewModel.deleteNoteState.observe(viewLifecycleOwner) {
             searchNotes()
-        })
+        }
         noteViewModel.getAllNotes()
     }
 
@@ -118,18 +116,6 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
                 adapter.submitList(state.notes)
             }
             is NotesState.Error -> {
-                Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun handleArchived(state: ArchivedNoteState){
-        when(state){
-            is ArchivedNoteState.Success -> {
-                binding.notesRecycler.adapter?.notifyItemChanged(state.pos)
-                //searchNotes()
-            }
-            is ArchivedNoteState.Error -> {
                 Toast.makeText(context, state.message, Toast.LENGTH_SHORT).show()
             }
         }

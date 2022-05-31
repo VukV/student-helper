@@ -22,7 +22,7 @@ class NoteAdapter(
             it.noteArchive = note.archived
             it.noteDate = note.date
 
-            onNoteClicked.invoke(it)
+            onNoteClicked(it)
         }
     }
 
