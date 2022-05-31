@@ -4,13 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import okhttp3.internal.notifyAll
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import rs.raf.projekat2.vuk_vukovic_rn9420.R
 import rs.raf.projekat2.vuk_vukovic_rn9420.databinding.FragmentNotesBinding
@@ -18,10 +15,8 @@ import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.contract.NoteContract
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.recycler.note.NoteAdapter
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.recycler.note.NoteDiffCallback
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.recycler.note.callback.NoteCallbackAction
-import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.ArchivedNoteState
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.view.states.NotesState
 import rs.raf.projekat2.vuk_vukovic_rn9420.presentation.viewmodel.NoteViewModel
-import timber.log.Timber
 
 class NotesFragment:Fragment(R.layout.fragment_notes) {
 
@@ -67,7 +62,6 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
                     transaction?.commit()
                 }
                 NoteCallbackAction.ARCHIVE -> {
-                    Timber.e(it.noteArchive.toString())
                     noteViewModel.updateArchived(it.noteId!!, it.noteTile!!, it.noteContent!!, !it.noteArchive!!, it.noteDate!!, it.position)
                 }
             }
