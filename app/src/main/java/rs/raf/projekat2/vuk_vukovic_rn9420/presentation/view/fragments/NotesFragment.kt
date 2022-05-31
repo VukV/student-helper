@@ -101,7 +101,6 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
             renderState(it)
         }
         noteViewModel.archivedNoteState.observe(viewLifecycleOwner) {
-            Timber.e("EDIT NOTE STATE")
             searchNotes()
         }
         noteViewModel.deleteNoteState.observe(viewLifecycleOwner) {
@@ -136,7 +135,7 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
         val archived = binding.archiveSwitch.isChecked
 
         if(archived){
-            if(searchTag != ""){
+            if(searchTag.isNotBlank()){
                 noteViewModel.getByTitleOrContentSwitch(searchTag, true)
             }
             else{
@@ -144,7 +143,7 @@ class NotesFragment:Fragment(R.layout.fragment_notes) {
             }
         }
         else{
-            if(searchTag != ""){
+            if(searchTag.isNotBlank()){
                 noteViewModel.getByTitleOrContentSwitch(searchTag, false)
             }
             else{
