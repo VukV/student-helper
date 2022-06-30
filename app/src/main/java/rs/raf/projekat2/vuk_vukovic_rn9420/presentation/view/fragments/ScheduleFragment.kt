@@ -106,9 +106,9 @@ class ScheduleFragment:Fragment(R.layout.fragment_schedule) {
     }
 
     private fun initObservers(){
-        subjectViewModel.subjectsState.observe(viewLifecycleOwner, Observer {
+        subjectViewModel.subjectsState.observe(viewLifecycleOwner) {
             renderState(it)
-        })
+        }
         subjectViewModel.getAllSubjects()
         subjectViewModel.fetchSchedule()
     }
